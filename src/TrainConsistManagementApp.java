@@ -1,16 +1,32 @@
-import java.util.*;
+import java.util.Arrays;
 
-public class TrainConsistManagementApp {
+public class UC19BinarySearch {
+
+    public static int binarySearch(String[] bogies, String target) {
+        int left = 0, right = bogies.length - 1;
+
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            int cmp = bogies[mid].compareTo(target);
+
+            if (cmp == 0) return mid;
+            else if (cmp < 0) left = mid + 1;
+            else right = mid - 1;
+        }
+        return -1;
+    }
 
     public static void main(String[] args) {
+        String[] bogies = {"BG101", "BG102", "BG103", "BG104"};
+        Arrays.sort(bogies); // must be sorted
 
-        String[] bogies = {"Sleeper", "AC", "FirstClass", "General"};
+        String target = "BG103";
 
-        Arrays.sort(bogies);
+        int result = binarySearch(bogies, target);
 
-        System.out.println("🚆 Sorted Bogie Names:");
-        for (String b : bogies) {
-            System.out.println(b);
-        }
+        if (result != -1)
+            System.out.println("Bogie Found at index: " + result);
+        else
+            System.out.println("Bogie Not Found");
     }
 }
