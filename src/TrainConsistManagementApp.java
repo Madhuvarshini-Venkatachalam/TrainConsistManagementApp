@@ -1,24 +1,42 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
+
+// Bogie class (Custom Object)
+class Bogie {
+    String name;
+    int capacity;
+
+    // Constructor
+    Bogie(String name, int capacity) {
+        this.name = name;
+        this.capacity = capacity;
+    }
+
+    // Display method
+    public String toString() {
+        return name + " (Capacity: " + capacity + ")";
+    }
+}
 
 public class TrainConsistManagementApp {
 
     public static void main(String[] args) {
 
-        // HashMap to store Bogie -> Capacity
-        HashMap<String, Integer> bogieCapacity = new HashMap<>();
+        List<Bogie> bogieList = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
 
         int choice;
-        String bogie;
+        String name;
         int capacity;
 
         do {
-            System.out.println("\n🚆 BOGIE CAPACITY MANAGEMENT");
-            System.out.println("1. Add Bogie with Capacity");
-            System.out.println("2. Display All Bogie Capacities");
-            System.out.println("3. Search Capacity by Bogie");
+            System.out.println("\n🚆 BOGIE SORTING SYSTEM");
+            System.out.println("1. Add Bogie");
+            System.out.println("2. Sort by Capacity");
+            System.out.println("3. Display Bogies");
             System.out.println("4. Exit");
             System.out.print("Enter choice: ");
 
@@ -27,41 +45,33 @@ public class TrainConsistManagementApp {
 
             switch (choice) {
 
-                // Add bogie-capacity mapping
+                // Add bogie object
                 case 1:
                     System.out.print("Enter Bogie Name: ");
-                    bogie = sc.nextLine();
+                    name = sc.nextLine();
 
                     System.out.print("Enter Capacity: ");
                     capacity = sc.nextInt();
 
-                    bogieCapacity.put(bogie, capacity);
-                    System.out.println("✅ Bogie Added/Updated!");
+                    bogieList.add(new Bogie(name, capacity));
+                    System.out.println("✅ Bogie Added!");
                     break;
 
-                // Display all entries
+                // Sort using Comparator (Lambda)
                 case 2:
-                    if (bogieCapacity.isEmpty()) {
+                    Collections.sort(bogieList, (b1, b2) -> b1.capacity - b2.capacity);
+                    System.out.println("✅ Sorted by Capacity!");
+                    break;
+
+                // Display bogies
+                case 3:
+                    if (bogieList.isEmpty()) {
                         System.out.println("🚫 No bogies available.");
                     } else {
-                        System.out.println("\n🚆 BOGIE CAPACITY LIST:");
-                        for (Map.Entry<String, Integer> entry : bogieCapacity.entrySet()) {
-                            System.out.println("Bogie: " + entry.getKey() +
-                                    " | Capacity: " + entry.getValue());
+                        System.out.println("\n🚆 SORTED BOGIES:");
+                        for (Bogie b : bogieList) {
+                            System.out.println(b);
                         }
-                    }
-                    break;
-
-                // Search capacity
-                case 3:
-                    System.out.print("Enter Bogie Name to Search: ");
-                    bogie = sc.nextLine();
-
-                    if (bogieCapacity.containsKey(bogie)) {
-                        System.out.println("Capacity of " + bogie + " = " +
-                                bogieCapacity.get(bogie));
-                    } else {
-                        System.out.println("❌ Bogie not found!");
                     }
                     break;
 
