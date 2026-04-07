@@ -1,34 +1,27 @@
-class InvalidCapacityException extends Exception {
-    public InvalidCapacityException(String message) {
-        super(message);
-    }
-}
-
-class Bogie {
-    String name;
-    int capacity;
-
-    Bogie(String name, int capacity) throws InvalidCapacityException {
-        if (capacity <= 0) {
-            throw new InvalidCapacityException("Capacity must be positive!");
-        }
-        this.name = name;
-        this.capacity = capacity;
-    }
-}
+import java.util.Scanner;
 
 public class TrainConsistManagementApp {
 
     public static void main(String[] args) {
 
+        Scanner sc = new Scanner(System.in);
+
         try {
-            Bogie b1 = new Bogie("Sleeper", 72);
-            Bogie b2 = new Bogie("AC", -10); // Invalid
+            System.out.print("Enter Cargo Type: ");
+            String cargo = sc.nextLine();
 
-            System.out.println("Bogie Created Successfully");
+            if (cargo.equalsIgnoreCase("Explosive")) {
+                throw new Exception("Unsafe Cargo!");
+            }
 
-        } catch (InvalidCapacityException e) {
+            System.out.println("✅ Cargo Assigned Successfully");
+
+        } catch (Exception e) {
             System.out.println("❌ Error: " + e.getMessage());
+
+        } finally {
+            System.out.println("🔒 Safety Check Completed");
+            sc.close();
         }
     }
 }
