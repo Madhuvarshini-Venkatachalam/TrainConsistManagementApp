@@ -1,22 +1,25 @@
-import java.util.LinkedHashSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class TrainConsistManagementApp {
 
     public static void main(String[] args) {
 
-        // LinkedHashSet to maintain order + uniqueness
-        LinkedHashSet<String> train = new LinkedHashSet<>();
+        // HashMap to store Bogie -> Capacity
+        HashMap<String, Integer> bogieCapacity = new HashMap<>();
         Scanner sc = new Scanner(System.in);
 
         int choice;
         String bogie;
+        int capacity;
 
         do {
-            System.out.println("\n🚆 TRAIN FORMATION (LinkedHashSet)");
-            System.out.println("1. Add Bogie");
-            System.out.println("2. Display Train Formation");
-            System.out.println("3. Exit");
+            System.out.println("\n🚆 BOGIE CAPACITY MANAGEMENT");
+            System.out.println("1. Add Bogie with Capacity");
+            System.out.println("2. Display All Bogie Capacities");
+            System.out.println("3. Search Capacity by Bogie");
+            System.out.println("4. Exit");
             System.out.print("Enter choice: ");
 
             choice = sc.nextInt();
@@ -24,41 +27,53 @@ public class TrainConsistManagementApp {
 
             switch (choice) {
 
-                // Add bogie
+                // Add bogie-capacity mapping
                 case 1:
                     System.out.print("Enter Bogie Name: ");
                     bogie = sc.nextLine();
 
-                    // add() automatically ignores duplicates
-                    if (train.add(bogie)) {
-                        System.out.println("✅ Bogie Added!");
-                    } else {
-                        System.out.println("❌ Duplicate Bogie! Not Added.");
-                    }
+                    System.out.print("Enter Capacity: ");
+                    capacity = sc.nextInt();
+
+                    bogieCapacity.put(bogie, capacity);
+                    System.out.println("✅ Bogie Added/Updated!");
                     break;
 
-                // Display formation
+                // Display all entries
                 case 2:
-                    if (train.isEmpty()) {
-                        System.out.println("🚫 No bogies in train.");
+                    if (bogieCapacity.isEmpty()) {
+                        System.out.println("🚫 No bogies available.");
                     } else {
-                        System.out.println("\n🚆 TRAIN FORMATION (ORDER PRESERVED):");
-                        for (String b : train) {
-                            System.out.print(b + " → ");
+                        System.out.println("\n🚆 BOGIE CAPACITY LIST:");
+                        for (Map.Entry<String, Integer> entry : bogieCapacity.entrySet()) {
+                            System.out.println("Bogie: " + entry.getKey() +
+                                    " | Capacity: " + entry.getValue());
                         }
-                        System.out.println("END");
                     }
                     break;
 
+                // Search capacity
                 case 3:
+                    System.out.print("Enter Bogie Name to Search: ");
+                    bogie = sc.nextLine();
+
+                    if (bogieCapacity.containsKey(bogie)) {
+                        System.out.println("Capacity of " + bogie + " = " +
+                                bogieCapacity.get(bogie));
+                    } else {
+                        System.out.println("❌ Bogie not found!");
+                    }
+                    break;
+
+                case 4:
                     System.out.println("👋 Exiting...");
                     break;
 
                 default:
-                    System.out.println("Invalid Choice!");
+                    System.out.println("Invalid choice!");
             }
 
-        } while (choice != 3);
+        } while (choice != 4);
 
         sc.close();
     }
