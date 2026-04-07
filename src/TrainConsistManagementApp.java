@@ -1,55 +1,103 @@
-import java.util.ArrayList;
+public static void main(String[] args) {
 
-public class TrainConsistManagementApp {
+    ArrayList<Bogie> train = new ArrayList<>();
+    java.util.Scanner sc = new java.util.Scanner(System.in);
 
-    // Inner class to represent a Bogie
-    static class Bogie {
-        String type;
-        int capacity;
-        int occupied;
+    int choice;
 
-        // Constructor
-        Bogie(String type, int capacity, int occupied) {
-            this.type = type;
-            this.capacity = capacity;
-            this.occupied = occupied;
+    do {
+        System.out.println("\n🚆 TRAIN CONSIST MANAGEMENT");
+        System.out.println("1. Add Passenger Bogie");
+        System.out.println("2. Remove Bogie");
+        System.out.println("3. Display Train");
+        System.out.println("4. Check Bogie Exists");
+        System.out.println("5. Exit");
+        System.out.print("Enter choice: ");
+        choice = sc.nextInt();
+        sc.nextLine(); // clear buffer
+
+        switch (choice) {
+
+            case 1:
+                System.out.print("Enter Bogie Type (Sleeper/AC Chair/First Class): ");
+                String type = sc.nextLine();
+
+                System.out.print("Enter Capacity: ");
+                int cap = sc.nextInt();
+
+                System.out.print("Enter Occupied Seats: ");
+                int occ = sc.nextInt();
+
+                train.add(new Bogie(type, cap, occ));
+                System.out.println("✅ Bogie Added!");
+                break;
+
+            case 2:
+                System.out.print("Enter Bogie Type to Remove: ");
+                String removeType = sc.nextLine();
+
+                boolean removed = false;
+                for (int i = 0; i < train.size(); i++) {
+                    if (train.get(i).type.equalsIgnoreCase(removeType)) {
+                        train.remove(i);
+                        removed = true;
+                        System.out.println("❌ Bogie Removed!");
+                        break;
+                    }
+                }
+
+                if (!removed) {
+                    System.out.println("⚠️ Bogie Not Found!");
+                }
+                break;
+
+            case 3:
+                if (train.isEmpty()) {
+                    System.out.println("🚫 No bogies in train.");
+                } else {
+                    int totalCap = 0, totalOcc = 0;
+
+                    for (Bogie b : train) {
+                        b.display();
+                        totalCap += b.capacity;
+                        totalOcc += b.occupied;
+                    }
+
+                    System.out.println("TOTAL BOGIES: " + train.size());
+                    System.out.println("TOTAL CAPACITY: " + totalCap);
+                    System.out.println("TOTAL OCCUPIED: " + totalOcc);
+                    System.out.println("AVAILABLE: " + (totalCap - totalOcc));
+                }
+                break;
+
+            case 4:
+                System.out.print("Enter Bogie Type to Search: ");
+                String search = sc.nextLine();
+
+                boolean found = false;
+                for (Bogie b : train) {
+                    if (b.type.equalsIgnoreCase(search)) {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (found) {
+                    System.out.println("✅ Bogie Exists!");
+                } else {
+                    System.out.println("❌ Not Found!");
+                }
+                break;
+
+            case 5:
+                System.out.println("👋 Exiting...");
+                break;
+
+            default:
+                System.out.println("Invalid Choice!");
         }
 
-        // Display bogie details
-        void display() {
-            System.out.println("Bogie Type: " + type);
-            System.out.println("Capacity : " + capacity);
-            System.out.println("Occupied : " + occupied);
-            System.out.println("--------------------------");
-        }
-    }
+    } while (choice != 5);
 
-    public static void main(String[] args) {
-
-        // Train consist list
-        ArrayList<Bogie> train = new ArrayList<>();
-
-        // Initialize with some passenger bogies
-        train.add(new Bogie("Sleeper", 72, 50));
-        train.add(new Bogie("AC Chair", 60, 40));
-        train.add(new Bogie("First Class", 24, 10));
-
-        // Display Train Summary
-        System.out.println("🚆 TRAIN CONSIST SUMMARY");
-        System.out.println("==========================");
-
-        int totalCapacity = 0;
-        int totalOccupied = 0;
-
-        for (Bogie b : train) {
-            b.display();
-            totalCapacity += b.capacity;
-            totalOccupied += b.occupied;
-        }
-
-        System.out.println("TOTAL BOGIES : " + train.size());
-        System.out.println("TOTAL CAPACITY : " + totalCapacity);
-        System.out.println("TOTAL OCCUPIED : " + totalOccupied);
-        System.out.println("AVAILABLE SEATS : " + (totalCapacity - totalOccupied));
-    }
+    sc.close();
 }
