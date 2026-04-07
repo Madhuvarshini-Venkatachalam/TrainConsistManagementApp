@@ -4,13 +4,22 @@ public class TrainConsistManagementApp {
 
     public static void main(String[] args) {
 
-        String[] bogies = {"Sleeper", "AC", "FirstClass", "General"};
+        String[] bogies = {"BG101", "BG102", "BG103", "BG104"};
+        String target = "BG103";
 
-        Arrays.sort(bogies);
+        boolean found = false;
 
-        System.out.println("🚆 Sorted Bogie Names:");
         for (String b : bogies) {
-            System.out.println(b);
+            if (b.equals(target)) {
+                found = true;
+                break;
+            }
+        }
+
+        if (found) {
+            System.out.println("✅ Bogie Found: " + target);
+        } else {
+            System.out.println("❌ Bogie Not Found");
         }
     }
 }
