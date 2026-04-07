@@ -1,55 +1,52 @@
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class TrainConsistManagementApp {
 
-    // Inner class to represent a Bogie
-    static class Bogie {
-        String type;
-        int capacity;
-        int occupied;
-
-        // Constructor
-        Bogie(String type, int capacity, int occupied) {
-            this.type = type;
-            this.capacity = capacity;
-            this.occupied = occupied;
-        }
-
-        // Display bogie details
-        void display() {
-            System.out.println("Bogie Type: " + type);
-            System.out.println("Capacity : " + capacity);
-            System.out.println("Occupied : " + occupied);
-            System.out.println("--------------------------");
-        }
-    }
-
     public static void main(String[] args) {
 
-        // Train consist list
-        ArrayList<Bogie> train = new ArrayList<>();
+        // Create LinkedList for train consist
+        LinkedList<String> consist = new LinkedList<>();
 
-        // Initialize with some passenger bogies
-        train.add(new Bogie("Sleeper", 72, 50));
-        train.add(new Bogie("AC Chair", 60, 40));
-        train.add(new Bogie("First Class", 24, 10));
+        // Add initial bogies
+        consist.add("Engine");
+        consist.add("Sleeper");
+        consist.add("AC");
+        consist.add("Cargo");
+        consist.add("Guard");
 
-        // Display Train Summary
-        System.out.println("🚆 TRAIN CONSIST SUMMARY");
-        System.out.println("==========================");
+        System.out.println("Initial Train Consist:");
+        System.out.println(consist);
 
-        int totalCapacity = 0;
-        int totalOccupied = 0;
+        // Add at beginning
+        consist.addFirst("New Engine");
+        System.out.println("\nAfter addFirst():");
+        System.out.println(consist);
 
-        for (Bogie b : train) {
-            b.display();
-            totalCapacity += b.capacity;
-            totalOccupied += b.occupied;
+        // Add at end
+        consist.addLast("Extra Guard");
+        System.out.println("\nAfter addLast():");
+        System.out.println(consist);
+
+        // Insert at position 2
+        consist.add(2, "Pantry Car");
+        System.out.println("\nAfter inserting Pantry Car at index 2:");
+        System.out.println(consist);
+
+        // Remove first bogie
+        consist.removeFirst();
+        System.out.println("\nAfter removeFirst():");
+        System.out.println(consist);
+
+        // Remove last bogie
+        consist.removeLast();
+        System.out.println("\nAfter removeLast():");
+        System.out.println(consist);
+
+        // Final consist display
+        System.out.println("\nFinal Train Consist (Ordered):");
+        for (String bogie : consist) {
+            System.out.print(bogie + " → ");
         }
-
-        System.out.println("TOTAL BOGIES : " + train.size());
-        System.out.println("TOTAL CAPACITY : " + totalCapacity);
-        System.out.println("TOTAL OCCUPIED : " + totalOccupied);
-        System.out.println("AVAILABLE SEATS : " + (totalCapacity - totalOccupied));
+        System.out.println("END");
     }
 }
