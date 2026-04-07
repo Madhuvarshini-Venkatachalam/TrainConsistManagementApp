@@ -1,10 +1,18 @@
-import java.util.*;
-import java.util.stream.*;
+class InvalidCapacityException extends Exception {
+    public InvalidCapacityException(String message) {
+        super(message);
+    }
+}
 
 class Bogie {
+    String name;
     int capacity;
 
-    Bogie(int capacity) {
+    Bogie(String name, int capacity) throws InvalidCapacityException {
+        if (capacity <= 0) {
+            throw new InvalidCapacityException("Capacity must be positive!");
+        }
+        this.name = name;
         this.capacity = capacity;
     }
 }
@@ -13,32 +21,14 @@ public class TrainConsistManagementApp {
 
     public static void main(String[] args) {
 
-        List<Bogie> list = new ArrayList<>();
+        try {
+            Bogie b1 = new Bogie("Sleeper", 72);
+            Bogie b2 = new Bogie("AC", -10); // Invalid
 
-        // Add sample data
-        for (int i = 1; i <= 100000; i++) {
-            list.add(new Bogie(i));
+            System.out.println("Bogie Created Successfully");
+
+        } catch (InvalidCapacityException e) {
+            System.out.println("❌ Error: " + e.getMessage());
         }
-
-        // Loop method
-        long start1 = System.nanoTime();
-        int sum1 = 0;
-        for (Bogie b : list) {
-            sum1 += b.capacity;
-        }
-        long end1 = System.nanoTime();
-
-        // Stream method
-        long start2 = System.nanoTime();
-        int sum2 = list.stream()
-                .map(b -> b.capacity)
-                .reduce(0, Integer::sum);
-        long end2 = System.nanoTime();
-
-        System.out.println("Loop Sum: " + sum1);
-        System.out.println("Stream Sum: " + sum2);
-
-        System.out.println("Loop Time: " + (end1 - start1));
-        System.out.println("Stream Time: " + (end2 - start2));
     }
 }
