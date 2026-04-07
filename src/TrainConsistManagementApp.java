@@ -1,27 +1,16 @@
-import java.util.Scanner;
+import java.util.*;
 
 public class TrainConsistManagementApp {
 
     public static void main(String[] args) {
 
-        Scanner sc = new Scanner(System.in);
+        String[] bogies = {"Sleeper", "AC", "FirstClass", "General"};
 
-        try {
-            System.out.print("Enter Cargo Type: ");
-            String cargo = sc.nextLine();
+        Arrays.sort(bogies);
 
-            if (cargo.equalsIgnoreCase("Explosive")) {
-                throw new Exception("Unsafe Cargo!");
-            }
-
-            System.out.println("✅ Cargo Assigned Successfully");
-
-        } catch (Exception e) {
-            System.out.println("❌ Error: " + e.getMessage());
-
-        } finally {
-            System.out.println("🔒 Safety Check Completed");
-            sc.close();
+        System.out.println("🚆 Sorted Bogie Names:");
+        for (String b : bogies) {
+            System.out.println(b);
         }
     }
 }
