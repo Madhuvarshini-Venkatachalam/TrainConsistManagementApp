@@ -1,52 +1,65 @@
-import java.util.LinkedList;
+import java.util.LinkedHashSet;
+import java.util.Scanner;
 
 public class TrainConsistManagementApp {
 
     public static void main(String[] args) {
 
-        // Create LinkedList for train consist
-        LinkedList<String> consist = new LinkedList<>();
+        // LinkedHashSet to maintain order + uniqueness
+        LinkedHashSet<String> train = new LinkedHashSet<>();
+        Scanner sc = new Scanner(System.in);
 
-        // Add initial bogies
-        consist.add("Engine");
-        consist.add("Sleeper");
-        consist.add("AC");
-        consist.add("Cargo");
-        consist.add("Guard");
+        int choice;
+        String bogie;
 
-        System.out.println("Initial Train Consist:");
-        System.out.println(consist);
+        do {
+            System.out.println("\n🚆 TRAIN FORMATION (LinkedHashSet)");
+            System.out.println("1. Add Bogie");
+            System.out.println("2. Display Train Formation");
+            System.out.println("3. Exit");
+            System.out.print("Enter choice: ");
 
-        // Add at beginning
-        consist.addFirst("New Engine");
-        System.out.println("\nAfter addFirst():");
-        System.out.println(consist);
+            choice = sc.nextInt();
+            sc.nextLine(); // clear buffer
 
-        // Add at end
-        consist.addLast("Extra Guard");
-        System.out.println("\nAfter addLast():");
-        System.out.println(consist);
+            switch (choice) {
 
-        // Insert at position 2
-        consist.add(2, "Pantry Car");
-        System.out.println("\nAfter inserting Pantry Car at index 2:");
-        System.out.println(consist);
+                // Add bogie
+                case 1:
+                    System.out.print("Enter Bogie Name: ");
+                    bogie = sc.nextLine();
 
-        // Remove first bogie
-        consist.removeFirst();
-        System.out.println("\nAfter removeFirst():");
-        System.out.println(consist);
+                    // add() automatically ignores duplicates
+                    if (train.add(bogie)) {
+                        System.out.println("✅ Bogie Added!");
+                    } else {
+                        System.out.println("❌ Duplicate Bogie! Not Added.");
+                    }
+                    break;
 
-        // Remove last bogie
-        consist.removeLast();
-        System.out.println("\nAfter removeLast():");
-        System.out.println(consist);
+                // Display formation
+                case 2:
+                    if (train.isEmpty()) {
+                        System.out.println("🚫 No bogies in train.");
+                    } else {
+                        System.out.println("\n🚆 TRAIN FORMATION (ORDER PRESERVED):");
+                        for (String b : train) {
+                            System.out.print(b + " → ");
+                        }
+                        System.out.println("END");
+                    }
+                    break;
 
-        // Final consist display
-        System.out.println("\nFinal Train Consist (Ordered):");
-        for (String bogie : consist) {
-            System.out.print(bogie + " → ");
-        }
-        System.out.println("END");
+                case 3:
+                    System.out.println("👋 Exiting...");
+                    break;
+
+                default:
+                    System.out.println("Invalid Choice!");
+            }
+
+        } while (choice != 3);
+
+        sc.close();
     }
 }
